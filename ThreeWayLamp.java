@@ -1,111 +1,133 @@
 package ss.week2.hotel;
 
-import ss.utils.TextIO;
+import java.util.*;
 
-class TWlamp22 {
+class TWLamp22 {
 	private String State;
 
-	// private ThreeWayLamp current;
-	TWlamp22() {
-		// return the TWLamp2 object
+	public TWLamp22() {
+		/** 
+		 * Constructor for the class TWLamp22
+		 */
 	}
 
-	int testOFF(String s2)// @invariant-Checks if lamp is off.@requires-Lamp has to be created//
-	{
-		if (s2 == "OFF") {
-			return 1;
-		} else
+	public int SwitchState(String s2) {
+		if (s2.equals("OFF")) {
 			return 0;
-
+		} else {
+			return 1;
+		}
+		/**Checks whether the Switch is on or off  
+		 * @requires-Lamp to be created
+		 */
 	}
 
-	String testSEQUENCE(String s1) {/*
-									 * @invariant-Checks if sequence is properly implemented.
-									 * 
-									 * @requires-lamp has to be created.
-									 * 
-									 * @precondition-previous state of lamp has to be checked
-									 */
-		if (s1 == "OFF")
-			return "LOW";
-		else if (s1 == "LOW")
-			return "MEDIUM";
-		else if (s1 == "MEDIUM")
-			return "HIGH";
-		else
-			return "OFF";
+	public String Next(String s1) {
+		if (s1 == "OFF") {
+			this.State = "LOW";
+			return this.State;
+		} else if (s1 == "LOW") {
+			this.State = "MEDIUM";
+			return this.State;
+		} else if (s1 == "MEDIUM") {
+			this.State = "HIGH";
+			return this.State;
+		} else {
+			this.State = "OFF";
+			return this.State;
+		}
 	}
-
-	void runtest(String State)// @invariant-Method to check the cases-testOFF and
-								// testSEQUENCE.@requires-Methods-testOFF and testSEQUENCE
-	{
-
+	/**
+	 * @requires-SwitchState to be created 
+	 * @param State
+	 */
+	void setLamp(String State) {
 		switch (State) {
-		case "OFF":
+		case ("OFF"):
 			this.State = "OFF";
 			System.out.println(this.State);
 			break;
-		case "LOW":
+		case ("LOW"):
 			this.State = "LOW";
 			System.out.println(this.State);
 			break;
-		case "MEDIUM":
+		case ("MEDIUM"):
 			this.State = "MEDIUM";
 			System.out.println(this.State);
 			break;
-		case "HIGH":
+		case ("HIGH"):
 			this.State = "HIGH";
 			System.out.println(this.State);
 			break;
-		case "STATE":
-			if (testOFF(this.State) == 1)
-				System.out.println("SWITCH IS OFF");
-			else {
-				System.out.println("SWITCH IS ON");
-			}
-			break;
-		case "NEXT":
-			String x = (testSEQUENCE(this.State));
+		case ("NEXT"):
+			String x = Next(this.State);
 			this.State = x;
 			System.out.println(this.State);
 			break;
+		case ("STATE"):
+			if (SwitchState(this.State) == 1) {
+				System.out.println("Switch is OFF");
+			} else {
+				System.out.println("Switch is ON");
+			}
+			break;
 		default:
-			System.out.println("ERROR!");
+			System.out.println("ERROR");
 		}
-
+	}
+	/**
+	 * 
+	 * @return the current state of the lamp
+	 */
+	public String getState() {
+		return this.State;
+	}
+	
+	/**
+	 * 
+	 * @invariant-Displays help menu
+	 */
+	
+	void Help() {
+		String helpMenu = (" OFF: Set the lamp to OFF (default value)\r\n" + " LOW: Set the lamp to LOW\r\n"
+				+ " MEDIUM: Set the lamp to MEDIUM\r\n" + " HIGH: Set the lamp to HIGH\r\n"
+				+ " STATE: Print the current setting of the lamp\r\n"
+				+ " NEXT: Change to the next setting, observing the order OFF ! LOW ! MEDIUM ! HIGH !\r\n" + "OFF\r\n"
+				+ " HELP: Show a help menu, explaining how the user should interact with the program\r\n"
+				+ " EXIT: Quit the program");
+		System.out.println(helpMenu);
+	}
+	/**
+	 * @invariant-Resets lamp to OFF
+	 * @requires-Lamp to be created
+	 */
+	public void reset() {
+		State = "OFF";
 	}
 
-	void display()// @invariant-Displays help menu
-	{
-		String str1 = "OFF: Set the lamp to OFF (default value) " + "LOW: Set the lamp to LOW  "
-				+ "MEDIUM: Set the lamp to MEDIUM" + "HIGH: Set the lamp to HIGH "
-				+ "STATE: Print the current setting of the lamp  "
-				+ "NEXT: Change to the next setting, observing the order OFF to LOW to MEDIUM to HIGH to OFF"
-				+ "EXIT: Quit the program ";
-
-		System.out.println(str1);
-	}
 }
 
 public class ThreeWayLamp {
-	public static void main(String[] args) {
-		TWlamp22 lamp = setup();
-		lamp.display();
 
+	public static void main(String[] args) {
+		TWLamp22 lamp = setup();
+		lamp.Help();
+		Scanner s = new Scanner(System.in);
 		boolean check = true;
-		while (check) {
-			System.out.println("ENTER COMMAND");
-			String s = TextIO.getlnString();
-			if (!s.equals("EXIT")) {
-				lamp.runtest(s);
+		while (true) {
+			System.out.println("Enter command");
+			String st = s.nextLine();
+			if (!st.equals("EXIT")) {
+				lamp.setLamp(st);
+
 			} else {
 				check = false;
 			}
 		}
-
 	}
 
-	public static TWlamp22 setup() {
-		return new TWlamp22();
+	public static TWLamp22 setup() {
+		return new TWLamp22();
 	}
+
 }
